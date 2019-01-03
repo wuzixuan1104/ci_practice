@@ -1,18 +1,25 @@
-<?php
-// use Model\Bar as Bar;
-// use Lib\Marco as Marco;
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+use Lib\View as View;
 
 class Auth extends MY_Controller {
+  public function __construct() {
+    parent::__construct();
 
-  public function login()
-  {
-    $this->load->view('site/login.php');
-    // $bar = new Bar();
-    // echo $bar->show();
+    $this->asset->addCSS('site/auth.css');
+  }
 
-    // $marco = new Marco();
-    // echo $marco->show();
+  public function login() {
+    $view = View::create('site/login.php')
+                   ->with('name', 'cherry')
+                   ->with('birthday', '83-11-04')
+                   ->with('part', View::create('site/test.php')->with('user', 'OA') );
+
+    $this->load->view('site/layout.php', [
+      'path' => $view->vpath,
+      'params' => $view->vparam,
+      'asset' => $this->asset,
+      'title' => 'LOGIN IN',
+    ]);
   }
 }
