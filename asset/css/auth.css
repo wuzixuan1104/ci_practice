@@ -1,0 +1,26 @@
+@charset "UTF-8";
+*, *:after, *:before { vertical-align: top; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; -moz-osx-font-smoothing: subpixel-antialiased; -webkit-font-smoothing: subpixel-antialiased; -moz-font-smoothing: subpixel-antialiased; -ms-font-smoothing: subpixel-antialiased; -o-font-smoothing: subpixel-antialiased; }
+
+html { position: relative; }
+html body { position: relative; display: inline-block; width: 100%; margin: 0; padding: 0; color: #5a5a5a; background-color: #ffe3d3; text-align: center; font-size: medium; font-family: "微軟正黑體", "Open sans", "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif; }
+html body::-moz-selection { color: white; background-color: #78baff; }
+html body::selection { color: white; background-color: #78baff; }
+
+div.container { display: inline-block; width: 670px; margin-top: 100px; overflow: hidden; -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; }
+div.container header { position: relative; display: inline-block; width: 100%; height: 180px; overflow: hidden; }
+div.container header .bg { display: inline-block; margin: 0 auto; height: 100%; width: 100%; -webkit-filter: blur(3px); filter: blur(3px); -moz-transform: scale(1.1, 1.1); -ms-transform: scale(1.1, 1.1); -webkit-transform: scale(1.1, 1.1); transform: scale(1.1, 1.1); }
+div.container header .bg img { width: 100%; }
+div.container header .title { position: absolute; top: 50px; width: 100%; display: block; }
+div.container header .title h1 { color: white; font-weight: bold; letter-spacing: 5px; }
+div.container div.block { display: inline-block; width: 100%; background-color: white; padding: 50px 150px; }
+div.container div.block form.submit { display: inline-block; width: 100%; }
+div.container div.block form.submit input { display: block; width: 100%; height: 50px; font-size: 15px; color: gray; padding-left: 10px; border: none; border-bottom: 1px solid #dadada; outline: none; }
+div.container div.block form.submit input + input { margin-top: 20px; }
+div.container div.block form.submit input:-moz-placeholder { font-weight: normal; color: rgba(124, 128, 134, 0.8); font-size: 15px; }
+div.container div.block form.submit input::-moz-placeholder { font-weight: normal; color: rgba(124, 128, 134, 0.8); font-size: 15px; }
+div.container div.block form.submit input:-ms-input-placeholder { font-weight: normal; color: rgba(124, 128, 134, 0.8); font-size: 15px; }
+div.container div.block form.submit input::-webkit-input-placeholder { font-weight: normal; color: rgba(124, 128, 134, 0.8); font-size: 15px; }
+div.container div.block form.submit button[type="submit"] { display: inline-block; margin-top: 50px; width: 150px; height: 50px; font-size: 18px; color: white; background-color: #fb7d7d; border: none; outline: none; -moz-border-radius: 50px; -webkit-border-radius: 50px; border-radius: 50px; }
+div.container div.block form.submit button[type="submit"]:hover { cursor: pointer; background-color: #f9a019; }
+div.container div.block .error { display: none; width: 100%; height: 30px; margin-bottom: 10px; background-color: #ffecf0; color: rgba(204, 45, 45, 0.51); border: 1px solid rgba(255, 0, 0, 0.3); line-height: 30px; font-size: 14px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
+div.container div.block .error.active { display: inline-block; }
