@@ -10,14 +10,15 @@ class Auth extends MY_Controller {
   }
 
   public function login() {
-    $view = View::create('site/login.php')
+
+    $view = View::create('site/login.php');
                    ->with('name', 'cherry')
                    ->with('birthday', '83-11-04')
                    ->with('part', View::create('site/test.php')->with('user', 'OA') );
 
-    $this->load->view('site/layout.php', [
+    $this->load->view($this->layout, [
       'path' => $view->vpath,
-      'params' => $view->vparam,
+      // 'params' => $view->vparam,
       'asset' => $this->asset,
       'title' => 'LOGIN IN',
     ]);
