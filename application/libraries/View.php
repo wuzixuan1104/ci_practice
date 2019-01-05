@@ -23,5 +23,15 @@ class View {
       $this->vparam[$text] = $value;
     return $this;
   }
+
+  public function getPath() {
+    $this->vpath || $this->vpath = null;
+    return $this->vpath;
+  }
+
+  public function getParam() {
+    $this->vparam || $this->vparam = [];
+    return $this->vparam;
+  }
 }
 

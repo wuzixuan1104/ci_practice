@@ -28,12 +28,12 @@ $db['default'] = array(
 );
 
 $db['dev'] = array(
-  'dsn' => '',
+  'dsn' => 'mysql:host=localhost;port=3306;dbname=ci_practice',
   'hostname' => 'localhost',
   'username' => 'root',
   'password' => '1234',
   'database' => 'ci_practice',
-  'dbdriver' => 'mysqli',
+  'dbdriver' => 'pdo',
   'dbprefix' => '',
   'pconnect' => FALSE,
   'db_debug' => (ENVIRONMENT !== 'production'),

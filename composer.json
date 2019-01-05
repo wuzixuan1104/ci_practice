@@ -19,11 +19,9 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Model\\": "application/models",
 			"Lib\\": "application/libraries",
 			"Controller\\": "application/controllers"
 		},
-		"files": ["application/helpers/Datetime.php"],
 		"classmap": [
 			"application/libraries"
 		]

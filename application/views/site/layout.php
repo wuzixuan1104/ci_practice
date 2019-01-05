@@ -10,6 +10,6 @@
     
   </head>
   <body lang="zh-tw">
-    <?php isset($path) ? (isset($params) ? $this->load->view($path, $params) : $this->load->view($path)) : ''; ?>
+    <?php isset($content) && $this->load->view($content->getPath(), $content->getParam()); ?>
   </body>
 </html>
