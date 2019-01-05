@@ -10,7 +10,10 @@ class Auth extends MY_Controller {
   }
 
   public function login() {
-    
+    // $cfg = \ActiveRecord\Config::instance();
+    // var_dump($cfg);
+    // die;
+
     $view = View::create('site/login.php');
                    // ->with('name', 'cherry')
                    // ->with('birthday', '83-11-04')
