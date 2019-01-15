@@ -8,7 +8,7 @@ class Migration_insert_User extends CI_Migration {
       $data = [
         [
           'account' => "admin",
-          'password' => "$2y$10$UkGkO5Ow3CTekYpIz8P3g.O3nCq2dxM/aa0eQQOEeVOidwlZFOpee",
+          'password' => "$2y$10$TlFeuoqwraov6oTxjnkazuS1VaOn4aKOP5EluryCI2IM4aavE7PjK",
           'name' => "admin"
         ]
       ];
