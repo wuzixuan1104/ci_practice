@@ -28,11 +28,12 @@ class Mdb extends CI_Model {
     $db->trans_begin();
 
     try {
-      call_user_func($closure);
+      $exec = call_user_func($closure);
       if($db->trans_status() === false) {
         throw new \Exception('Transaction Exception!');
       }
       $db->trans_commit();
+      return $exec;
 
     } catch (\Exception $e) {
       $db->trans_rollback();
@@ -70,23 +71,23 @@ class Mdb extends CI_Model {
 
   public function find($condition) {
     $sql = "SELECT * FROM {$this->tableName} ";
-
     $params = [];
+
     if(isset($condition['where'])) {
       $where = array_shift($condition['where']);
       if(substr_count($where, '?') != count($condition['where']))
         return false;
 
-      foreach($condition['where'] as $key => $value) {
-        $where = str_replace('?', ':con' . $key, $where);
-        $params[':con' . $key] = $value;
-      }
+      foreach($condition['where'] as $key => $value) 
+        ($where = str_replace('?', ':con' . $key, $where)) && $params[':con' . $key] = $value;
+      
       $sql .= "WHERE " . $where;
     }
 
     (isset($condition['order']) && $sql .= " ORDER BY " . $condition['order']) || $sql .= " ORDER BY `id` DESC ";
 
     $q = $this->db->prepare($sql);
+
     foreach($params as $k => $v) 
       $q->bindParam($k, $v);
     
