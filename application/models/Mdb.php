@@ -28,12 +28,13 @@ class Mdb extends CI_Model {
     $db->trans_begin();
 
     try {
-      $exec = call_user_func($closure);
-      if($db->trans_status() === false) {
+      call_user_func($closure);
+      $stat = $db->trans_status();
+      if($stat === false) 
         throw new \Exception('Transaction Exception!');
-      }
+      
       $db->trans_commit();
-      return $exec;
+      return $stat;
 
     } catch (\Exception $e) {
       $db->trans_rollback();
@@ -93,6 +94,18 @@ class Mdb extends CI_Model {
     
     $q->execute();
     return $q;
+  }
+
+  public function insert($params) {
+    if(!(is_array($params) && count(array_intersect_key(array_flip($this->columns), $params)) === count($this->columns) ))
+      return false;
+
+    $q = $this->db->prepare("INSERT INTO {$this->tableName} (" . implode(',', $this->columns) . ") VALUES (" . implode(',', array_map(function($col) { return ':' . $col; }, $this->columns)) . ")");
+    
+    foreach($this->columns as $col)
+      $q->bindParam(':' . $col, $params[$col]);
+
+    return $q->execute();
   }
 }
 
