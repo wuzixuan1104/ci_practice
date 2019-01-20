@@ -10,9 +10,9 @@ class Auth extends MY_Controller {
   }
 
   public function login() {
-    // $cfg = \ActiveRecord\Config::instance();
-    // var_dump($cfg);
-    // die;
+    $post = Mod\User::all();
+    print_r($post);
+    die;
 
     $view = View::create('site/login.php');
                    // ->with('name', 'cherry')
@@ -27,3 +27,4 @@ class Auth extends MY_Controller {
     ]);
   }
 }
+
