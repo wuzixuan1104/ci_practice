@@ -10,7 +10,8 @@ class Auth extends MY_Controller {
   }
 
   public function login() {
-    $post = Mod\User::all();
+    // $post = Mod\User::create();
+    $post = Mod\User::find(1)->to_array();
     print_r($post);
     die;
 
