@@ -53,7 +53,7 @@ class WordTpl extends TemplateProcessor {
       return false;
 
     header('Content-Type: application/vnd.ms-word');
-    header('Content-Disposition: attachment;filename="' . $filename . '"');
+    header('Content-Disposition: attachment;filename="' . basename($filename) . '"');
     header('Cache-Control: max-age=0');
 
     $fp = fopen($filename, 'rb');
