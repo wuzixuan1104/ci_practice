@@ -47,17 +47,11 @@ class WordTpl extends TemplateProcessor {
     return $this;
   }
 
-  public function output($type, $filename = null) {
+  public function download($filename = null) {
     $filename || $filename = $this->targetFile;
     if ($filename === null)
       return false;
 
-    $typeFunc = ['pdf' => 'toPDF', 'download' => 'toDownload'];
-    $this->{$typeFunc[$type]}($filename);
-    return $this;
-  }
-
-  private function toDownload($filename) {
     header('Content-Type: application/vnd.ms-word');
     header('Content-Disposition: attachment;filename="' . $filename . '"');
     header('Cache-Control: max-age=0');
@@ -66,13 +60,6 @@ class WordTpl extends TemplateProcessor {
     fpassthru($fp);
 
     return true;
-  }
-
-  private function toPDF($filename) {
-    Settings::setPdfRendererName(Settings::PDF_RENDERER_TCPDF);
-    Settings::setPdfRendererPath('vendor/tecnickcom/tcpdf');
-    $phpWord = IOFactory::load($filename, 'Word2007');
-    $phpWord->save('document.pdf', 'PDF');
   }
 
   private function setTplPath($filename) {
