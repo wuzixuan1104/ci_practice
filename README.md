@@ -1,1 +1,15 @@
-# ci_practice
+# WORD to PDF
+
+## 安裝 unoconv 軟體
++ `brew cask install libreoffice`
++ `brew link unoconv`
+
+## 將文件轉檔
++ `/usr/local/bin/unoconv -f pdf '/Users/chestnuter/www/practice/ci_practice/asset/doc/new.docx'`
+
+## php exec 執行失敗
++ https://ubuntuforums.org/showthread.php?t=2278818
+
+### 參考連結
++ https://www.astralweb.com.tw/php-word-convert-to-pdf/
++ Ubuntu: https://github.com/andyideologi/unoconv

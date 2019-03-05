@@ -9,15 +9,17 @@ class Doc extends CI_Controller {
   }
 
   public function index() {
-    $path = FCPATH . 'asset/doc/';
+    $a = exec("/usr/local/bin/unoconv -f pdf '/Users/chestnuter/www/practice/ci_practice/asset/doc/new.docx'");
+    var_dump($a);
+    echo 123;
+    // $path = FCPATH . 'asset/doc/';
 
-    WordTpl::create($path . 'tipsaas_template.docx')
-                ->with('company_name', '大胖bo公司')
-                ->with('year', '2019')
-                ->with('month', '06')
-                ->with('day', '12')
-                ->saveTo($path . 'new.docx')
-                ->download();
+    // WordTpl::create($path . 'tipsaas_template.docx')
+    //             ->with('company_name', '大胖bo公司')
+    //             ->with('year', '2019')
+    //             ->with('month', '06')
+    //             ->with('day', '12')
+    //             ->saveTo($path . 'new.docx');
 
   }
 }

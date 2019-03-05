@@ -44,6 +44,8 @@ class WordTpl extends TemplateProcessor {
 
     $this->targetFile = $filename;
     self::$processor->saveAs($filename);
+    exec('sudo /usr/local/bin/unoconv -f pdf ' . $filename);
+
     return $this;
   }
 
@@ -60,7 +62,7 @@ class WordTpl extends TemplateProcessor {
     fpassthru($fp);
 
     return true;
-  }
+  } 
 
   private function setTplPath($filename) {
     if (!(is_string($filename) && file_exists($filename) && is_readable($filename))) {
