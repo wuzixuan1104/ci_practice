@@ -2,7 +2,7 @@
 
 ## 安裝 unoconv 軟體
 + `brew cask install libreoffice`
-+ `brew link unoconv`
++ `brew install unoconv --HEAD`
 
 ## 將文件轉檔
 + `/usr/local/bin/unoconv -f pdf '/Users/chestnuter/www/practice/ci_practice/asset/doc/new.docx'`
