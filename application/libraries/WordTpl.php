@@ -37,22 +37,28 @@ class WordTpl extends TemplateProcessor {
   }
 
   public function saveTo($filename) {
-    if (!(is_string($filename) && file_exists(dirname($filename)) && is_writable(dirname($filename)))) {
-      $this->output(__FUNCTION__, '找不到資料夾或權限不足！');
-      return false;
-    }
+    if (!(is_string($filename) && file_exists(dirname($filename)) && is_writable(dirname($filename)))) 
+      $this->error(__FUNCTION__, 'saveTo 找不到資料夾或權限不足！');
+
+    if (pathinfo($filename, PATHINFO_EXTENSION) != 'docx') 
+      $this->error(__FUNCTION__, 'saveTo 必須為「 .docx 」的檔案格式！', false);
 
     $this->targetFile = $filename;
     self::$processor->saveAs($filename);
+
     return $this;
   }
 
   public function download($filename = null) {
     $filename || $filename = $this->targetFile;
     if ($filename === null)
-      return false;
+      $this->error(__FUNCTION__, 'download 為給予指定檔案下載！', false);
 
-    header('Content-Type: application/vnd.ms-word');
+    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    if(!in_array($ext, ['docx', 'pdf']))
+      $this->error(__FUNCTION__, 'saveTo 必須為「 .docx 」的檔案格式！', false);
+
+    header('Content-Type: application/' . ($ext == 'pdf' ? 'pdf' : 'vnd.ms-word'));
     header('Content-Disposition: attachment;filename="' . basename($filename) . '"');
     header('Cache-Control: max-age=0');
 
@@ -62,9 +68,24 @@ class WordTpl extends TemplateProcessor {
     return true;
   }
 
+  public function toPDF($filename = null) {
+    $filename || $filename = $this->targetFile;
+    if ($filename === null)
+      $this->error(__FUNCTION__, 'toPDF 為給予指定檔案下載！', false);
+
+    $pdfPath = substr_replace($filename , 'pdf', strrpos($filename , '.') + 1);
+    
+    exec('/usr/local/bin/unoconv -f pdf -o  ' . $pdfPath . ' ' . $filename);
+    @unlink($this->targetFile);
+
+    $this->targetFile = $pdfPath;
+
+    return $this;
+  }
+
   private function setTplPath($filename) {
     if (!(is_string($filename) && file_exists($filename) && is_readable($filename))) {
-      $this->output(__FUNCTION__, '找不到樣本檔案或權限不足！');
+      $this->error(__FUNCTION__, '找不到樣本檔案或權限不足！');
       return false;
     }
 
@@ -72,7 +93,11 @@ class WordTpl extends TemplateProcessor {
     return $this;
   }
 
-  private function error($function, $msg) {
-    log_message('error', '[' . date('Y-m-d H:i:s') . '] Word Template - ' . $function . ' : ' . $msg);
+  private function error($function, $msg, $bool = true) {
+    if($bool)
+      log_message('error', '[' . date('Y-m-d H:i:s') . '] Word Template - ' . $function . ' : ' . $msg);
+    
+    echo $msg;
+    die;
   }
 }

@@ -12,11 +12,15 @@ class Doc extends CI_Controller {
     $path = FCPATH . 'asset/doc/';
 
     WordTpl::create($path . 'tipsaas_template.docx')
-                ->with('company_name', '大胖bo公司')
-                ->with('year', '2019')
-                ->with('month', '06')
-                ->with('day', '12')
+                ->with('company_name', '玩咖旅行社公司')
+                ->with('expire_date_start', '108 年 03 月 01 日')
+                ->with('expire_date_end', '108 年 03 月 02 日')
+                ->with('total_price', '7,000')
+                ->with('explain_2', '嘿嘿嘿test嘿嘿嘿test嘿嘿嘿test嘿嘿嘿test嘿嘿嘿test嘿嘿嘿test')
+                ->with('explain_4', '嘿嘿嘿test嘿嘿嘿test嘿嘿嘿test嘿嘿嘿test嘿嘿嘿test嘿嘿嘿test')
+                ->with('create_at', '108 年 03 月 02 日')
                 ->saveTo($path . 'new.docx')
+                ->toPDF()
                 ->download();
 
   }

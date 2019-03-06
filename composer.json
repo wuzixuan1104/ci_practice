@@ -14,7 +14,8 @@
 		"php": ">=5.3.7",
 		"php-activerecord/php-activerecord": "^1.2",
 		"setasign/fpdi-tcpdf": "^2.2",
-		"phpoffice/phpword": "v0.16.*"
+		"phpoffice/phpword": "v0.16.*",
+		"dompdf/dompdf": "^0.8.3"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
