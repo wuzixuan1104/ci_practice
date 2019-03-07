@@ -9,7 +9,9 @@ class Doc extends CI_Controller {
   }
 
   public function index() {
-    $a = exec("/usr/local/bin/unoconv -f pdf '/Users/chestnuter/www/practice/ci_practice/asset/doc/new.docx'");
+    $path = "/Users/chestnuter/www/practice/ci_practice/asset/doc/";
+    // $a = exec("/usr/local/bin/unoconv -f pdf -o " . $path . "new.pdf " . $path . "new.docx ");
+    $a = exec("/usr/local/bin/unoconv -f pdf  '" . $path . "new.docx'");
     var_dump($a);
     echo 123;
     // $path = FCPATH . 'asset/doc/';
