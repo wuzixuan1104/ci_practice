@@ -2,6 +2,8 @@
 
 
 $route['default_controller'] = 'main';
+$route['search'] = 'search/index';
+
 $route['login'] = 'site/auth/login';
 $route['login/process'] = 'site/auth/loginProcess';
 $route['register'] = 'site/auth/register';
