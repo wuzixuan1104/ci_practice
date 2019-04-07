@@ -19,7 +19,7 @@
     <hr>
     <div class="search-result">
       <div class="top">
-        <div>查詢到<span>5</span>個結果</div>
+        <div>查詢到<span>{{this.filterResult.length}}</span>個結果</div>
         <div class="tag">
           <span v-for="s in star"><label :for="setStarID(s)">{{s}}星</label> / </span>
         </div>
@@ -36,6 +36,15 @@
 
     </div>
   </div>
+
+  <paginate
+    :page-count="pageCnt"
+    :click-handler="clickPaginate"
+    :prev-text="'<'"
+    :next-text="'>'"
+    :container-class="'className'">
+  </paginate>
+
 </div>
 
 <script>
@@ -77,7 +86,6 @@
           function(resp) {
             that.result = resp;
             that.setUrlQuery();
-
             // that.$emit('update:result', resp);
             that.$emit('submit', that.result, that.url);
           });
@@ -144,24 +152,35 @@
       </form>
     `,
   });
+  
+  Vue.component('paginate', VuejsPaginate);
 
   new Vue({
     el: '#app',
     data: {
-      data: '',
-      result: '',
+      rowPage: 5,
+      data: [], //更新的資料
+      filterResult: [], //過濾過的資料
+      result: [], //全部資料
       star: [],
       url: '',
+    },
+
+    computed: {
+      pageCnt() {
+        return Math.ceil(this.filterResult.length / this.rowPage);
+      },
     },
 
     methods: {
       init(val, url) {
         this.data = val;
-        this.result = this.data;
+        this.result = this.data; 
+        this.FilterResult = this.data; 
         this.url = url;
 
         let params = new URLSearchParams(this.url.search.slice(1));
-        params.has('star') && (this.star = params.get('star').split(','));
+        params.has('star') && params.get('star') && (this.star = params.get('star').split(','));
       },
 
       filterData() {
@@ -170,14 +189,32 @@
 
         const that = this;
 
-        if (this.star) {
+        this.data = this.result;
+
+        if (this.star && this.star[0]) {
           this.data = this.result.slice().filter(function(v) {
             return that.star.indexOf(v.star.toString()) != -1;
           });
           this.url.searchParams.set('star', this.star.join(','));
-        }
+        } 
+
+        this.filterResult = this.data;
+        this.updPaginate(1);
 
         window.history.pushState('', '', this.url.href);
+      },
+
+      //修改分頁數
+      updPaginate(val) {
+        let startIdx = this.rowPage * (val - 1);
+        let endIdx = this.rowPage * (val - 1) + this.rowPage;
+
+        this.data = this.filterResult.slice(startIdx, endIdx);
+      },
+
+      //點擊分頁
+      clickPaginate(val) {
+        this.updPaginate(val);
       },
 
       setStarID(val) {
