@@ -1,7 +1,7 @@
 <div id="app">
   <div id="searchBox">
     <!-- <search-box :result.sync="data"></search-box> -->
-    <search-box @submit="setData"></search-box>
+    <search-box @submit="init"></search-box>
   </div>
   <hr>
   <div id="searchContent">
@@ -9,18 +9,20 @@
       <div>篩選項目</div>
       <div>星級</div>
       <div class="stars">
-        <input type="checkbox" @click="setStar(5)">5星
-        <input type="checkbox" @click="setStar(4)">4星
-        <input type="checkbox" @click="setStar(3)">3星
-        <input type="checkbox" @click="setStar(2)">2星
-        <input type="checkbox" @click="setStar(1)">1星
+        <input id="star_chk5" type="checkbox" value="5" v-model="star">5星
+        <input id="star_chk4" type="checkbox" value="4" v-model="star">4星
+        <input id="star_chk3" type="checkbox" value="3" v-model="star">3星
+        <input id="star_chk2" type="checkbox" value="2" v-model="star">2星
+        <input id="star_chk1" type="checkbox" value="1" v-model="star">1星
       </div>
     </div>
     <hr>
     <div class="search-result">
       <div class="top">
         <div>查詢到<span>5</span>個結果</div>
-        <div class="tag"><span>4星</span>/<span>3星</span></div>
+        <div class="tag">
+          <span v-for="s in star"><label :for="setStarID(s)">{{s}}星</label> / </span>
+        </div>
       </div>
       <br/>
       <div class="result" v-if="data" v-for="d in data">
@@ -48,11 +50,22 @@
         adult: 1,
         child: 0,
         result: this.data,
+        url: '',
       };
     },
     
+    mounted() {
+      this.url = new URL(window.location.href);
+      this.getUrlQuery();
+    },
+
     methods: {
       submit() {
+        if (this.place === '') {
+          alert('請填寫區域');
+          return false;
+        }
+
         const that = this;
         $.getJSON('http://dev.ci.com.tw/search/result', 
           { date_start: this.date_start, 
@@ -63,8 +76,10 @@
           },
           function(resp) {
             that.result = resp;
+            that.setUrlQuery();
+
             // that.$emit('update:result', resp);
-            that.$emit('submit', resp);
+            that.$emit('submit', that.result, that.url);
           });
       },
 
@@ -78,7 +93,30 @@
         $.getJSON('http://dev.ci.com.tw/search/place', {keyword: this.place}, function(resp) {
           that.keyword_list = resp;
         });
-      }
+      },
+
+      setUrlQuery() {
+        let params = new URLSearchParams(this.url.search.slice(1));
+        this.date_start && params.set('date_start', this.date_start);
+        this.date_end && params.set('date_end', this.date_end);
+        this.place && params.set('place', this.place);
+        this.adult && params.set('adult', this.adult);
+        params.set('child', this.child);
+
+        window.history.pushState('', '', this.url.href);
+      },
+
+      getUrlQuery() {
+        let params = new URLSearchParams(this.url.search.slice(1));
+
+        params.has('date_start') && (this.date_start = params.get('date_start'));
+        params.has('date_end') && (this.date_end = params.get('date_end'));
+        params.has('adult') && (this.adult = params.get('adult'));
+        params.has('child') && (this.child = params.get('child'));
+        params.has('place') && (this.place = params.get('place'));
+
+        if (this.place) this.submit();
+      },
     },
 
     template: `
@@ -115,17 +153,14 @@
       result: '',
       star: [],
     },
+
     methods: {
-      setData(val) {
+      init(val, url) {
         this.data = val;
         this.result = this.data;
-      },
 
-      setStar(val) {
-        let idx = this.star.indexOf(val);
-        idx !== -1 ? this.star.splice(idx, 1) : this.star.push(val);
-
-        this.filterData();
+        let params = new URLSearchParams(url.search.slice(1));
+        params.has('star') && (this.star = params.get('star').split(','));
       },
 
       filterData() {
@@ -133,9 +168,22 @@
           return false;
 
         const that = this;
-        this.data = this.result.slice().filter(function(v) {
-          return that.star.indexOf(v.star) != -1;
-        });
+
+        if (this.star) {
+          this.data = this.result.slice().filter(function(v) {
+            return that.star.indexOf(v.star.toString()) != -1;
+          });
+        }
+      },
+
+      setStarID(val) {
+        return 'star_chk' + val;
+      },
+    },
+
+    watch: {
+      star() {
+        this.filterData();
       }
     }
   });
