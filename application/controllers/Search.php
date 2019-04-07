@@ -10,6 +10,7 @@ class Search extends MY_Controller {
 
   public function index() {
     $this->asset->addJS('https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js')
+                ->addJS('https://unpkg.com/vuejs-paginate@0.9.0')
                 ->addJS('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js');
 
     $this->load->view($this->layout, array_merge($this->params, [

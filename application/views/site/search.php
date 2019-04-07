@@ -96,12 +96,11 @@
       },
 
       setUrlQuery() {
-        let params = new URLSearchParams(this.url.search.slice(1));
-        this.date_start && params.set('date_start', this.date_start);
-        this.date_end && params.set('date_end', this.date_end);
-        this.place && params.set('place', this.place);
-        this.adult && params.set('adult', this.adult);
-        params.set('child', this.child);
+        this.date_start && (this.url.searchParams.set('date_start', this.date_start));
+        this.date_end && (this.url.searchParams.set('date_end', this.date_end));
+        this.place && (this.url.searchParams.set('place', this.place));
+        this.adult && (this.url.searchParams.set('adult', this.adult));
+        this.url.searchParams.set('child', this.child);
 
         window.history.pushState('', '', this.url.href);
       },
@@ -134,10 +133,10 @@
 
           <div class="personCal">
             <div>
-              <button @click="adult > 1 && adult--">-</button> <span>{{adult}}</span>位成人 <button @click="adult < 5 && adult++">+</button>
+              <button type="button" @click="adult > 1 && adult--">-</button> <span>{{adult}}</span>位成人 <button type="button" @click="adult < 5 && adult++">+</button>
             </div>
             <div>
-              <button @click="child > 0 && child--">-</button> <span>{{child}}</span>位兒童 <button @click="child < 5 && child++">+</button>
+              <button type="button" @click="child > 0 && child--">-</button> <span>{{child}}</span>位兒童 <button type="button" @click="child < 5 && child++">+</button>
             </div>
           </div>
         </div>
@@ -152,14 +151,16 @@
       data: '',
       result: '',
       star: [],
+      url: '',
     },
 
     methods: {
       init(val, url) {
         this.data = val;
         this.result = this.data;
+        this.url = url;
 
-        let params = new URLSearchParams(url.search.slice(1));
+        let params = new URLSearchParams(this.url.search.slice(1));
         params.has('star') && (this.star = params.get('star').split(','));
       },
 
@@ -173,7 +174,10 @@
           this.data = this.result.slice().filter(function(v) {
             return that.star.indexOf(v.star.toString()) != -1;
           });
+          this.url.searchParams.set('star', this.star.join(','));
         }
+
+        window.history.pushState('', '', this.url.href);
       },
 
       setStarID(val) {
