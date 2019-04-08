@@ -1,7 +1,7 @@
 <div id="app">
   <div id="searchBox">
     <!-- <search-box :result.sync="data"></search-box> -->
-    <search-box @submit="init"></search-box>
+    <search-box @submit="init" :post="post"></search-box>
   </div>
   <hr>
   <div id="searchContent">
@@ -16,6 +16,8 @@
         <input id="star_chk1" type="checkbox" value="1" v-model="star">1星
       </div>
     </div>
+    <hr>
+    <div>成人xxxx：{{post.adult}}</div>
     <hr>
     <div class="search-result">
       <div class="top">
@@ -34,6 +36,16 @@
         </div>
       </div>
 
+    </div>[1,2,3]
+    <hr>
+    <div>
+      <button type="button" @click="clickCnt(0)">-</button>
+      <button type="button" @click="clickCnt(1)">+</button>
+      <select v-for="i in cnt" @change="updSelected" :data-i="i">
+        <option value="1" selected>1</option>
+        <option value="2" :data-i="i" >2</option>
+        <option value="3" :data-i="i" >3</option>
+      </select>
     </div>
   </div>
 
@@ -48,8 +60,9 @@
 </div>
 
 <script>
+
   Vue.component('search-box', {
-    props: ['data'],
+    props: ['data', 'post'],
     data() {
       return {
         keyword_list : null,
@@ -60,6 +73,7 @@
         child: 0,
         result: this.data,
         url: '',
+        postRes: this.post,
       };
     },
     
@@ -148,6 +162,7 @@
             </div>
           </div>
         </div>
+        成人xxx<input type="text" v-model="postRes.adult">
         <button type="submit">Submit</button>
       </form>
     `,
@@ -164,6 +179,10 @@
       result: [], //全部資料
       star: [],
       url: '',
+      post: {'adult': 1, 'child': 0},
+      selected: [],
+      cnt: 0,
+      key: 1,
     },
 
     computed: {
@@ -220,11 +239,44 @@
       setStarID(val) {
         return 'star_chk' + val;
       },
+
+      clickCnt(val) {
+        if (val) {
+          this.selected.push(1);
+          this.cnt++;
+        } else {
+          this.selected.pop();
+          this.cnt--;
+        }
+        console.log(this.cnt);
+        console.log(this.selected);
+      },
+
+      updSelected(e) {
+        // if(e.target.value) {
+        //     console.log(e.target.value)
+        //     console.log(e.target.dataset.i);
+        // }
+
+        // console.log('updSelected');
+        idx = parseInt(e.target.dataset.i) - 1;
+        this.selected.splice(idx, 1, parseInt(e.target.value));
+
+        console.log('-----');
+        console.log(this.selected);
+      }
     },
 
     watch: {
       star() {
         this.filterData();
+        console.log(this.post.adult);
+      },
+      post() {
+        console.log(this.post);
+      },
+      selected() {
+        console.log(this.selected);
       }
     }
   });
