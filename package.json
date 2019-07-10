@@ -1,0 +1,48 @@
+{
+  "name": "ci_practice",
+  "version": "1.0.0",
+  "description": "## 安裝 unoconv 軟體 + `brew cask install libreoffice` + `brew install unoconv --HEAD`",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wuzixuan1104/ci_practice.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wuzixuan1104/ci_practice/issues"
+  },
+  "homepage": "https://github.com/wuzixuan1104/ci_practice#readme",
+  "devDependencies": {
+    "@babel/core": "^7.5.4",
+    "@babel/preset-env": "^7.5.4",
+    "babel-core": "^7.0.0-rc.4",
+    "babel-loader": "^8.0.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-vue": "^2.0.2",
+    "css-loader": "^3.0.0",
+    "file-loader": "^4.0.0",
+    "vue-loader": "^15.7.0",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.5"
+  },
+  "dependencies": {
+    "vue": "^2.6.10"
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "vue"
+    ]
+  }
+}
