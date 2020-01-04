@@ -8,6 +8,10 @@ class MY_Controller extends CI_Controller{
   public function __construct() {
     parent::__construct();
 
+    // $this->lang->load('information','english');
+
+
+
     // if($this->session->userdata('id') === null && $this->uri->segment(1) != 'login')
     //   redirect('login');
 
@@ -18,5 +22,6 @@ class MY_Controller extends CI_Controller{
 
     $this->layout = 'site/layout.php';
     $this->asset = Asset::create()->addJS('public.js');
+
   }
 }

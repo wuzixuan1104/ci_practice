@@ -224,6 +224,39 @@ if ( ! function_exists('is_loaded'))
 
 // ------------------------------------------------------------------------
 
+if (!function_exists('config')) {
+  function config() {
+    static $files, $keys;
+
+    if (!$args = func_get_args())
+      return 'Config 使用方式錯誤！';
+
+    $fileName = array_shift($args);
+    $argsStr  = implode('', $args);
+
+
+    if (isset($keys[$fileName . $argsStr]))
+      return $keys[$fileName . $argsStr];
+    
+    if (!isset($files[$fileName])) {
+      if (!file_exists($path = APPPATH . 'config' . DIRECTORY_SEPARATOR . ENVIRONMENT . DIRECTORY_SEPARATOR . $fileName . '.php') && !file_exists($path = APPPATH . 'config' . DIRECTORY_SEPARATOR . $fileName . '.php'))
+        return '檔案名稱為「' . $fileName . '」的 Config 檔案不存在！';
+
+      include_once($path);
+
+      $files[$fileName] = $config;
+    }
+
+    $tmp = $files[$fileName];
+
+    foreach ($args as $arg)
+      if (($tmp = isset($tmp[$arg]) ? $tmp[$arg] : null) === null)
+        break;
+
+    return $keys[$fileName . $argsStr] = $tmp;
+  }
+}
+
 if ( ! function_exists('get_config'))
 {
 	/**

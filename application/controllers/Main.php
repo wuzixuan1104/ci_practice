@@ -3,6 +3,6 @@
 class Main extends MY_Controller {
 
 	public function index() {
-    echo '主頁';
+    echo $this->lang->line('welcome_message');
 	}
 }

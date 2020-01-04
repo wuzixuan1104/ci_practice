@@ -9,6 +9,17 @@ class Search extends MY_Controller {
   }
 
   public function index() {
+
+    // $this->load->config('shari');
+    // $a = $this->config->item('a');
+    $b = config('oa', 'c', 'a', 'b');
+    $a = config('shari', 'b');
+    var_dump($b);
+    var_dump($a);
+    die;
+
+
+
     $this->asset->addJS('https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js')
                 ->addJS('https://unpkg.com/vuejs-paginate@0.9.0')
                 ->addJS('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js');
