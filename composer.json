@@ -15,7 +15,8 @@
 		"php-activerecord/php-activerecord": "^1.2",
 		"setasign/fpdi-tcpdf": "^2.2",
 		"phpoffice/phpword": "v0.16.*",
-		"elasticsearch/elasticsearch": "~7.0"
+		"elasticsearch/elasticsearch": "~7.0",
+		"almasaeed2010/adminlte": "~2.4"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
